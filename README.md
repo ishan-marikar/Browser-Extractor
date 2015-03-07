@@ -1,2 +1,3 @@
 # Browser-Extractor
-A C# API to extract saved user credentials of websites from browsers
+A simple and easy to use saved password extractor for browsers.
+Currently only supports chrome, but stay tuned for more updates.
