@@ -20,8 +20,12 @@ namespace BrowserPasswordRetriever
 		public static string GetPasswordsFile()
 		{
 			string localApplicationPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			string fileName = Path.Combine(localApplicationPath, "Google", "Chrome", "User Data", "Default", "Login Data");
-
+			string chromePath = Path.Combine(localApplicationPath, "Google", "Chrome", "User Data", "Default", "Login Data");
+			string fileName = Path.Combine(chromePath, "Login Data");
+			if (!Directory.Exists(chromePath))
+			{
+				throw new Exception("Google Chrome user data files cannot be found.");
+			}
 			return fileName;
 		}
 
